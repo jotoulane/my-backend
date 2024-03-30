@@ -8,11 +8,7 @@ import (
 
 func InitRoutes() *gin.Engine {
 	r := gin.New()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+
 	// 生成路由引擎
 	v1Publish := r.Group("/api/v1")
 	v1Private := r.Group("/api/v1")
