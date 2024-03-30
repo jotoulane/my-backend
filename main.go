@@ -6,6 +6,9 @@ import (
 
 func main() {
 
+	// 初始化
+	initialize.Init()
+
 	// 初始化路由
 	r := initialize.InitRoutes()
 
