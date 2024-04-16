@@ -1,9 +1,12 @@
 package logger
 
 import (
+	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"io"
+	"os"
 )
 
 var (
@@ -38,4 +41,12 @@ func InitLogger() {
 	core := zapcore.NewCore(encoder, zap.CombineWriteSyncers(writeSyncer), zapcore.DebugLevel)
 	logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 	Logger = logger.Sugar()
+
+	// 设置gin内置log
+	gin.DefaultWriter = io.MultiWriter(writeSyncer, os.Stdout)
+
+	// 设置gorm内置log
+	LogFileWriter = &writeSyncer
+
+	Logger.Info("Logger init ok!")
 }

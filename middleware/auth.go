@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"my-backend/model/code"
-	"my-backend/model/response"
+	"my-backend/global/code"
+	"my-backend/global/response"
 	"net/http"
 
 	"my-backend/utils/jwt"

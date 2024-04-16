@@ -1,7 +1,7 @@
 package response
 
 import (
-	"my-backend/model/code"
+	"my-backend/global/code"
 )
 
 type ResponseData struct {

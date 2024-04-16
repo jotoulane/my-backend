@@ -16,7 +16,7 @@ func (pkg *userRouter) InitUserRouter(privateParent *gin.RouterGroup, publicPare
 
 	{
 		userPublic.GET("/ping", userApi.Ping)
-		userPublic.POST("/register", userApi.UserRegister)
+		userPublic.GET("/register", userApi.UserRegister)
 	}
 
 }
