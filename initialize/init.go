@@ -30,4 +30,7 @@ func Init() {
 	MYSQL_DSN := os.Getenv("MYSQL_DSN")
 	logger.Logger.Info("DATABASE:", DATABASE)
 	database.InitGormConnectDB(DATABASE, MYSQL_DSN)
+
+	//初始化数据库内容
+	database.InitDBTables()
 }
