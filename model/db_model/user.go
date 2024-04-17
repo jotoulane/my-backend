@@ -1,6 +1,7 @@
 package db_model
 
 import (
+	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"my-backend/global"
 )
@@ -16,7 +17,7 @@ type User struct {
 
 const (
 	// PassWordCost 密码加密难度
-	PassWordCost = 12
+	PassWordCost = 10
 	// Active 激活用户
 	Active string = "active"
 	// Inactive 未激活用户
@@ -78,13 +79,16 @@ func (u *User) CheckPassword() (bool, error) {
 
 // CheckUser 校验用户
 func (u *User) CheckUser() (bool, error) {
-	var existedUser User
-	err := global.DB.First(&existedUser, "phone = ?", u.Phone).Error
+	// 从数据库中查找用户
+	var user User
+	err := global.DB.First(&user, "phone = ?", u.Phone).Error
 	if err != nil {
 		return false, err
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(existedUser.Password), []byte(u.Password))
-	ok := err == nil && existedUser.Status == Active
+	fmt.Printf("======user: %+v\n", user)
+	// 校验密码，第一个参数数据库中的加密后的密码、第二个参数为字节切片转换过的用户输入密码值
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(u.Password))
+	ok := err == nil //&& user.Status == Active
 	if ok {
 		err := global.DB.First(&u, "phone = ?", u.Phone).Error
 		if err != nil {
