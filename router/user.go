@@ -14,6 +14,7 @@ func (pkg *userRouter) InitUserRouter(privateParent *gin.RouterGroup, publicPare
 
 	userApi := api.ApiPackageApp.UserApi
 
+	// 公共接口注册
 	{
 		userPublic.GET("/ping", userApi.Ping)
 		userPublic.POST("/login", userApi.Login)

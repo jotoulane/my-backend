@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"my-backend/global/code"
 	"my-backend/global/response"
@@ -34,7 +33,6 @@ func (pkg *UserApi) Login(c *gin.Context) {
 		Phone:    form.Phone,
 		Password: form.Password,
 	}
-	fmt.Printf("user: %+v\n", user)
 	err := userService.Login(c, &user)
 	if err != nil {
 		c.JSON(200, response.ResponseErrorWithMsg(code.StatusBadRequest, err.Error()))
@@ -42,7 +40,6 @@ func (pkg *UserApi) Login(c *gin.Context) {
 	}
 
 	// 登录成功，生成JWT
-	fmt.Printf("user: %v\n", user)
 	token, err := middleware.GenToken(user.ID, user.UserName, user.Phone)
 	if err != nil {
 		c.JSON(200, response.ResponseErrorWithMsg(code.StatusInternalServerError, err.Error()))
