@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"my-backend/global"
 	"my-backend/global/code"
 	"my-backend/global/response"
 	"my-backend/initialize/logger"
@@ -55,4 +56,29 @@ func (pkg *UserApi) Login(c *gin.Context) {
 
 func (pkg *UserApi) UserRegister(c *gin.Context) {
 	c.JSON(200, response.ResponseSuccess(os.Getenv("DATABASE")))
+}
+
+func (pkg *UserApi) Me(c *gin.Context) {
+	// 获取用户信息
+	userID, ok := c.Get("userID")
+	if !ok {
+		c.JSON(200, response.ResponseError(code.StatusUnauthorized))
+		return
+	}
+
+	//查询数据库
+	user := db_model.User{
+		BaseModel: global.BaseModel{
+			ID: userID.(uint),
+		},
+	}
+	err := user.Get()
+	if err != nil {
+		c.JSON(200, response.ResponseError(code.StatusServiceUnavailable))
+		return
+	}
+
+	c.JSON(200, response.ResponseSuccess(gin.H{
+		"userInfo": user,
+	}))
 }

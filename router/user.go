@@ -10,7 +10,7 @@ type userRouter struct {
 
 func (pkg *userRouter) InitUserRouter(privateParent *gin.RouterGroup, publicParent *gin.RouterGroup) {
 	userPublic := publicParent.Group("/user")
-	//userPrivate := privateParent.Group("/user")
+	userPrivate := privateParent.Group("/user")
 
 	userApi := api.ApiPackageApp.UserApi
 
@@ -21,4 +21,9 @@ func (pkg *userRouter) InitUserRouter(privateParent *gin.RouterGroup, publicPare
 		userPublic.GET("/register", userApi.UserRegister)
 	}
 
+	// 需登录接口注册
+	{
+		// 获取用户信息
+		userPrivate.GET("/me", userApi.Me)
+	}
 }
